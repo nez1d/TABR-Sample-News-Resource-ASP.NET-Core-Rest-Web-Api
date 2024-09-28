@@ -1,10 +1,11 @@
-﻿using System.Reflection;
+﻿using AutoMapper;
+using System.Reflection;
 
 namespace Tabr.Application.Common.Mappers
 {
-    public class AssemblyMappingsProfile
+    public class AssemblyMappingProfile : Profile
     {
-        public AssemblyMappingsProfile(Assembly assembly) => 
+        public AssemblyMappingProfile(Assembly assembly) => 
             ApplyMappingFromAssembly(assembly);
 
         private void ApplyMappingFromAssembly(Assembly assembly)
@@ -18,7 +19,7 @@ namespace Tabr.Application.Common.Mappers
             foreach (var type in types)
             {
                 var instance = Activator.CreateInstance(type);
-                var methodInfo = type.GetMethod("IMapWith");
+                var methodInfo = type.GetMethod("Mapping");
                 methodInfo?.Invoke(instance, new object[] {this});
             }
         }
